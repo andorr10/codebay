@@ -1,0 +1,22 @@
+{
+  "name": "codebay",
+  "version": "1.0.0",
+  "description": "using mysql and mysql npm to create an application that acts like ebay",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andorr10/codebay.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andorr10/codebay/issues"
+  },
+  "homepage": "https://github.com/andorr10/codebay#readme",
+  "dependencies": {
+    "mysql": "^2.15.0"
+  }
+}
