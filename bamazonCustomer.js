@@ -20,17 +20,21 @@ connection.connect(function(err) {
   //buy();
 });
 //******************************************
-//
+//This function displays the all the inventory and
 //******************************************
 function displayProducts(){
   connection.query("SELECT * FROM products", function(err, results) {
     if (err) throw err;
     //console.log(results);
-    var table = new Table({ chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''} });
+    var table = new Table({
+      head:["Item ID", "Product Name", "Department Name", "Price", "Quantity"]
+    });
+      // { chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''}
+    //  });
     // var dbArray = [];
-      table.push([
-        "Item ID", "Product Name", "Department Name", "Price", "Quantity"
-      ]);
+      // table.push([
+      //   "Item ID", "Product Name", "Department Name", "Price", "Quantity"
+      // ]);
       for (var i = 0; i < results.length; i++) {
         table.push([
           results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity
@@ -42,7 +46,7 @@ function displayProducts(){
   });
 }
 //******************************************
-//
+// This function
 //******************************************
 function buy(){
   connection.query("SELECT * FROM products", function(err, results) {
@@ -98,7 +102,7 @@ function buy(){
   });
 }
 //******************************************
-//
+// This function updates the database to reflect the current stock of each item
 //******************************************
 function updateDB(amount, item){
     var sql = ("UPDATE products SET stock_quantity = ? WHERE product_name = ?");
