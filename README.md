@@ -1,8 +1,9 @@
 codebay
 using mysql and mysql npm to create an application that acts like ebay
-My bamazon app only runs when choose to buy.  It will give you a list of items that are in stock and then ask you to choose the time.
+My "Amazon/Ebay"-like app only runs when choose to buy.  It will give you a list of items that are in stock and then ask you to choose the time.
 
-
+Below is the starting image for when the program runs, showing all the available products to buy:
+https://github.com/andorr10/codebay/blob/master/images/Bamazon-Start.png?raw=true
 
 
 
