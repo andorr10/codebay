@@ -1,6 +1,11 @@
 codebay
 using mysql and mysql npm to create an application that acts like ebay
-My bamazon app only runs when choose to buy.  It will give you a list of items that are in stock and then ask you to choose the time
+My bamazon app only runs when choose to buy.  It will give you a list of items that are in stock and then ask you to choose the time.
+
+
+
+
+
 
 
 the first thing the application does is establish a connection to the mysql database, through the mysql npm.  Once the connection is confirmed, the terminal displays a welcome message and then executes the display products function to show all the items in the marketplace.
