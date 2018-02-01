@@ -15,10 +15,41 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) throw err;
   //console.log("connected as id " + connection.threadId + "\n");
-  console.log("Welcome to Bamazon.  Please take a look at what you want to buy!");
-  displayProducts();
+  console.log("Welcome to Bamazon!");
+  //displayProducts();
+  chooseBuyOrSell();
   //buy();
 });
+
+//******************************************
+//This function determines whether the person wants to buy or sell products
+//******************************************
+function chooseBuyOrSell(){
+  //console.log("Buy or sell something?");
+  inquirer.prompt([
+      {
+        name: "choice",
+        type: "rawlist",
+        choices: ["Buy", "Sell"],
+        message: "Would you like to Buy or Sell something?"
+      }
+    ]).then(function(response){
+      console.log("Awesome, what do you want to " + response.choice);
+      if(response.choice ==="Buy"){
+        displayProducts();
+      }
+      if(response.choice === "Sell") {
+        console.log("What you slangin'");
+
+      }
+      
+
+    });
+      }
+
+
+
+
 //******************************************
 //This function displays the all the inventory and
 //******************************************
@@ -27,7 +58,7 @@ function displayProducts(){
     if (err) throw err;
     //console.log(results);
     var table = new Table({
-      head:["Item ID", "Product Name", "Department Name", "Price", "Quantity"]
+      head:["Item ID", "Product Name", "Department Name", "Price", "Stock"]
     });
       // { chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''}
     //  });
@@ -46,7 +77,7 @@ function displayProducts(){
   });
 }
 //******************************************
-// This function
+// This function below will ask them what product they want and 
 //******************************************
 function buy(){
   connection.query("SELECT * FROM products", function(err, results) {
@@ -96,19 +127,106 @@ function buy(){
           console.log("");
           console.log("sorry, we don't have enough of that.  Maybe try to buy something else");
           console.log("");
-          displayProducts();
+          stillShopping();
         }
     });
   });
 }
+
+
+function sell(){
+  var productsArray;
+  var matched = false;
+  connection.query("SELECT * FROM products", function(err, results){
+      if (err) throw err; 
+
+      for (var i=0; i<results.length; i++){
+        productsArray.push(results[i].product_name);
+      }
+      console.log(productsArray);
+      return productsArray;
+    });
+}
+
+//       inquirer.prompt([
+//         name: "product",
+//         type: "input",
+//         message: "What you slangin' bud?"
+//         ]).then(function(response){
+//           for (var j=0; j<productsArray.length; j++){
+//             if(response.product = productsArray[i]){
+//               match = true;
+//             }
+//           }
+//         });
+
+//         inquirer.prompt(
+//         [
+//         name: "department",
+//         type: "rawlist"
+//         message: "Huh, that's interesting.  What department would I store that in?"
+//         ]).then(function(response){
+//           if (response.product = true){
+//             inquirer.prompt([
+//                 name: "amount",
+//                 type: "input"
+//                 message: "How many you tryna slang?"
+//               ],
+//               [
+//                 name: "cost",
+//                 type: "input",
+//                 message "How much you want for one?"
+//               ]).then(function(response){
+//                 for (var i=0; i<results.)
+
+//               });
+
+//           }
+//           if (response.product !==true){
+//             console.log("Sorry fam, we already got that");
+//             return;
+//           }
+
+
+//         });
+
+//   });
+
+// }
+
+function stillShopping(){
+  inquirer.prompt([
+      {
+        name: "choice",
+        type: "rawlist",
+        choices: ["Yes", "No"],
+        message: "Would you like to continue shopping?"
+      }
+    ]).then(function(response){
+      if(response.choice ==="Yes"){
+        displayProducts();
+      }
+      if(response.choice === "No") {
+        console.log("Thanks for your business, see you again.");
+        return;
+      }
+
+    });
+}
+
 //******************************************
 // This function updates the database to reflect the current stock of each item
 //******************************************
+function addToDB(amount, item){
+  var sql = ("")
+
+}
+
 function updateDB(amount, item){
     var sql = ("UPDATE products SET stock_quantity = ? WHERE product_name = ?");
     connection.query(sql, [amount, item],function (err, result) {
       if (err) throw err;
       console.log(result.affectedRows + " record(s) updated");
-      displayProducts();
+      stillShopping();
     });
   }
