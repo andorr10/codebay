@@ -1,7 +1,7 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 var Table = require("cli-table");
-
+var newItem;
 var connection = mysql.createConnection({
  host: "localhost",
  port: 3306,
@@ -39,8 +39,8 @@ function chooseBuyOrSell(){
         displayProducts();
       }
       if(response.choice === "Sell") {
-        console.log("What you slangin'");
-
+        // console.log("Oh'");
+        Sell();
       }
       
 
@@ -134,31 +134,54 @@ function buy(){
 }
 
 
-function sell(){
-  var productsArray;
-  var matched = false;
+function Sell(){
+  var productsArray = [];
   connection.query("SELECT * FROM products", function(err, results){
       if (err) throw err; 
 
-      for (var i=0; i<results.length; i++){
+      for (var i = 0; i < results.length; i++){
         productsArray.push(results[i].product_name);
       }
       console.log(productsArray);
-      return productsArray;
-    });
-}
+      // console.log(productsArray);
+      // return productsArray;
 
-//       inquirer.prompt([
-//         name: "product",
-//         type: "input",
-//         message: "What you slangin' bud?"
-//         ]).then(function(response){
-//           for (var j=0; j<productsArray.length; j++){
-//             if(response.product = productsArray[i]){
-//               match = true;
-//             }
-//           }
-//         });
+
+
+      inquirer.prompt([{
+        name: "item",
+        type: "input",
+        message: "What you slangin' bud?"
+        }]).then(function(response){
+          newItem=response.item;
+          if(productsArray.includes(response.item)) {
+            console.log("sorry bud we already got those, how about something else?");
+            chooseBuyOrSell();
+          }
+          else {
+            console.log("awesome, something new");
+            inquirer.prompt([{
+              name: "department",
+              type: "input",
+              message: "What category would you say that is?"
+              },
+              {
+              name: "price",
+              type: "input",
+              message: "Ok, and how much you want for it?"
+              },
+              {
+                name: "amount",
+                type: "input",
+                message: "How many you got?"
+              }]).then(function(response){
+                console.log("added this bad boy to the store");
+                addNewToDB(newItem, response.department, response.price, response.amount);
+                console.log("anything else you want to do?");
+              });
+
+            }
+        });
 
 //         inquirer.prompt(
 //         [
@@ -190,9 +213,9 @@ function sell(){
 
 //         });
 
-//   });
+   });
 
-// }
+ }
 
 function stillShopping(){
   inquirer.prompt([
@@ -212,15 +235,16 @@ function stillShopping(){
       }
 
     });
+    return;
 }
 
 //******************************************
 // This function updates the database to reflect the current stock of each item
 //******************************************
-function addToDB(amount, item){
-  var sql = ("")
+// function addToDB(amount, item){
+//   var sql = ("")
 
-}
+// }
 
 function updateDB(amount, item){
     var sql = ("UPDATE products SET stock_quantity = ? WHERE product_name = ?");
@@ -229,4 +253,14 @@ function updateDB(amount, item){
       console.log(result.affectedRows + " record(s) updated");
       stillShopping();
     });
+  }
+
+  function addNewToDB(item, department, price, amount){
+    var addSql = "INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ('" + newItem + "', '"+department+"', "+price+", "+amount+")";
+    connection.query(addSql, function(err, result) {
+      if (err)throw err;
+      console.log("Thanks, now I can add "+ newItem + " to the marketplace.  I now have "+ result.affectedRows + " more item.");
+      stillShopping();
+    });
+    //console.log(addSql);
   }

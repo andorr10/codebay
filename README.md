@@ -1,6 +1,17 @@
 codebay
 using mysql and mysql npm to create an application that acts like ebay
-My bamazon app only runs when choose to buy.  It will give you a list of items that are in stock and then ask you to choose the time
+My "Amazon/Ebay"-like app only runs when choose to buy.  It will give you a list of items that are in stock and then ask you to choose the time.
+
+Below is the starting image for when the program runs, showing all the available products to buy:
+<img width="471" alt="bamazon-start" src="https://user-images.githubusercontent.com/29937924/34730715-d73f3f6e-f525-11e7-959f-80c0d77ccf0c.png">
+
+Below is a purchase for 10 strawberries that will go through because the order amount is less than the supply:
+<img width="454" alt="bamazon-purchased" src="https://user-images.githubusercontent.com/29937924/34730736-e4903380-f525-11e7-8fcf-d9505c9adee5.png">
+
+Below is a failed purchase for 50 jeans because there is insufficient supply:
+<img width="500" alt="bamazon-understocked" src="https://user-images.githubusercontent.com/29937924/34730744-ea6f2e78-f525-11e7-81c1-6647ffef93d5.png">
+
+
 
 
 the first thing the application does is establish a connection to the mysql database, through the mysql npm.  Once the connection is confirmed, the terminal displays a welcome message and then executes the display products function to show all the items in the marketplace.
